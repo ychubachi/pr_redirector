@@ -38,4 +38,4 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'therubyracer'
-gem 'uuidtools'
+gem 'active_scaffold'

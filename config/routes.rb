@@ -1,4 +1,6 @@
 PrRidirector::Application.routes.draw do
+  resources :media
+
   get "redirector/index"
 
   # The priority is based upon order of creation:

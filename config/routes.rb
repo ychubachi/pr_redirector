@@ -1,11 +1,14 @@
 PrRedirector::Application.routes.draw do
+  root :to => 'home#index'
   get "home/index"
+  get "admin/index"
+  match '/rd/:id' => 'home#redirect'
+
+  resources :referrers do as_routes end
+  resources :referrers
 
   resources :users do as_routes end
-
   resources :users
-
-  get "admin/index"
 
   resources :redirects do as_routes end
   resources :redirects
@@ -26,7 +29,7 @@ PrRedirector::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-
+  
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

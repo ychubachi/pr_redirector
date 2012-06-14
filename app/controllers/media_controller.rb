@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class MediaController < ApplicationController
   active_scaffold :medium do |conf|
-    conf.label = "メディア"
-    conf.columns = [:id, :title]
+    conf.label = "広告媒体"
+    conf.columns = [:title, :code, :category, :start_date, :end_date, :cost, :copies]
   end
 end 

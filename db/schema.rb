@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120613231830) do
+ActiveRecord::Schema.define(:version => 20120614041909) do
 
   create_table "media", :force => true do |t|
     t.string   "category"
@@ -22,6 +22,26 @@ ActiveRecord::Schema.define(:version => 20120613231830) do
     t.integer  "copies"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "code"
   end
+
+  add_index "media", ["code"], :name => "media_code_index", :unique => true
+
+  create_table "redirects", :force => true do |t|
+    t.integer  "medium_id"
+    t.integer  "target_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "targets", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "code"
+  end
+
+  add_index "targets", ["code"], :name => "target_code_index", :unique => true
 
 end

@@ -31,7 +31,6 @@ Media
 -----
 
 - id
-- code
 - category
 - title
 - start_date
@@ -39,16 +38,9 @@ Media
 - cost
 - copies
 
-Target
-------
-
-- id
-- title
-- url
-
 Redirect
 --------
 
 - id
-- medium_id
-- target_id
+- title
+- url

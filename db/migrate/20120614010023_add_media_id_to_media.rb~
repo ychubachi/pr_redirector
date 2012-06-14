@@ -1,6 +1,0 @@
-class AddMediaIdToMedia < ActiveRecord::Migration
-  def change
-    add_column :media, :media_id, :string
-    add_index :media, :media_id, {name: 'media_id_index', unique: true}
-  end
-end

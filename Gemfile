@@ -39,3 +39,4 @@ gem 'jquery-rails'
 
 gem 'therubyracer'
 gem 'active_scaffold'
+gem 'haml-rails', '>= 0.3.4', :group => :development

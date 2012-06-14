@@ -1,4 +1,6 @@
 PrRedirector::Application.routes.draw do
+  get "home/index"
+
   resources :users do as_routes end
 
   resources :users

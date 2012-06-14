@@ -1,4 +1,10 @@
 PrRedirector::Application.routes.draw do
+  resources :users do as_routes end
+
+  resources :users
+
+  get "admin/index"
+
   resources :redirects do as_routes end
   resources :redirects
 

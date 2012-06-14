@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120614041909) do
+ActiveRecord::Schema.define(:version => 20120614150529) do
 
   create_table "media", :force => true do |t|
     t.string   "category"
@@ -43,5 +43,11 @@ ActiveRecord::Schema.define(:version => 20120614041909) do
   end
 
   add_index "targets", ["code"], :name => "target_code_index", :unique => true
+
+  create_table "users", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

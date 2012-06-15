@@ -4,30 +4,30 @@ class HomeController < ApplicationController
   end
 
   def index
-    puts '### HomeControllor#index'
+    logger.info '### HomeControllor#index'
     record
     redirect_to @default_redirect
   end
 
   def redirect
-    puts '### HomeControllor#redirect'
+    logger.info '### HomeControllor#redirect'
 
     # record
     id = params[:id]
-    puts "### id=#{id}"
+    logger.info "### id=#{id}"
 
     redirect = Redirect.where('id = :id',{id: id}).first
     if redirect && redirect.target then
       url = redirect.target.url
     else
-      puts '### no target is specified.'
+      logger.info '### no target is specified.'
     end
 
     if url
-      puts "### redirect to #{url}"
+      logger.info "### redirect to #{url}"
       redirect_to url
     else
-      puts "### redirect to default url"
+      logger.info "### redirect to default url"
       # TODO: error should be recoded
       redirect_to @default_redirect
     end
@@ -39,27 +39,27 @@ class HomeController < ApplicationController
     # get user\'s uuid id from the session.
     uuid = session[:uuid]
     if uuid.to_s == '' then
-      puts '### new user'
+      logger.info '### new user'
       uuid = UUIDTools::UUID.random_create.to_s
       session[:uuid] = uuid
     else
-      puts '### repeated user'
+      logger.info '### repeated user'
     end
-    puts "### uuid=#{uuid}"
+    logger.info "### uuid=#{uuid}"
 
     # lookup the db
     user = User.where('title = :title', {title: uuid}).first_or_initialize
     if user.new_record?
-      puts '### create a new user instance and save it.'
+      logger.info '### create a new user instance and save it.'
       user.title = uuid
       user.save
     else
-      puts '### the user already exists.'
+      logger.info '### the user already exists.'
     end
 
     # get referrer
     referrer_url = request.referer
-    puts "### referer=#{referrer_url}"
+    logger.info "### referer=#{referrer_url}"
     referrer = Referrer.new
     referrer.title = referrer_url
     referrer.user = user

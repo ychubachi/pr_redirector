@@ -11,14 +11,12 @@ class HomeController < ApplicationController
 
   def redirect
     puts '### HomeControllor#redirect'
-    puts "### params=#{params.to_s}"
 
     # record
     id = params[:id]
-    puts "### =#{id}"
+    puts "### id=#{id}"
 
     redirect = Redirect.where('id = :id',{id: id}).first
-    # url = nil
     if redirect && redirect.target then
       url = redirect.target.url
     else
@@ -29,10 +27,10 @@ class HomeController < ApplicationController
       puts "### redirect to #{url}"
       redirect_to url
     else
+      puts "### redirect to default url"
       # TODO: error should be recoded
       redirect_to @default_redirect
     end
-      
   end
 
   private

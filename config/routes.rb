@@ -1,23 +1,22 @@
 PrRedirector::Application.routes.draw do
   root :to => 'home#index'
   get "home/index"
-  get "admin/index"
+  get "home/redirect"
   match '/rd/:id' => 'home#redirect'
 
-  resources :referrers do as_routes end
-  resources :referrers
-
-  resources :users do as_routes end
-  resources :users
-
-  resources :redirects do as_routes end
-  resources :redirects
-
-  resources :targets do as_routes end
-  resources :targets
-
-  resources :media do as_routes end
-  resources :media
+  namespace :admin do
+    resources :referrers do as_routes end
+    resources :referrers
+    resources :users do as_routes end
+    resources :users
+    resources :redirects do as_routes end
+    resources :redirects
+    resources :targets do as_routes end
+    resources :targets
+    resources :media do as_routes end
+    resources :media
+  end
+  get "admin/index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

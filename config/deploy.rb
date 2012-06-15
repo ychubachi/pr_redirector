@@ -1,3 +1,6 @@
+# See: http://takuyan.hatenablog.com/entry/20110121/1295571519
+require "bundler/capistrano"
+
 set :application, "pr_redirector"
 set :repository,  "git@github.com:ychubachi/pr_redirector.git"
 set :deploy_to, "/home/rails/pr_redirector"

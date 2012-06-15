@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120615033857) do
+ActiveRecord::Schema.define(:version => 20120615050129) do
 
   create_table "media", :force => true do |t|
     t.string   "category"
@@ -30,8 +30,9 @@ ActiveRecord::Schema.define(:version => 20120615033857) do
   create_table "redirects", :force => true do |t|
     t.integer  "medium_id"
     t.integer  "target_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.boolean  "default_redirect"
   end
 
   create_table "referrers", :force => true do |t|

@@ -5,34 +5,20 @@ class HomeController < ApplicationController
 
   def index
     logger.info '### HomeControllor#index'
-    record
-    redirect_to @default_redirect
+    do_redirect # defaulct redirect
   end
 
   def redirect
     logger.info '### HomeControllor#redirect'
-
     id = params[:id]
-    logger.info "### id=#{id}"
-
-    redirect_to = Redirect.where('id = :id',{id: id}).first
-    redirect_url = @default_redirect
-    if redirect_to && redirect_to.target then
-      redirect_url = redirect_to.target.url
-    else
-      logger.info '### no target is specified.'
-    end
-    logger.info "### redirect to #{redirect_url}"
-
-    # record
-    record redirect_to
-    redirect_to redirect_url
+    do_redirect id
   end
 
   private
 
-  def record(redirect_to = nil)
-    logger.info "### Home#record(redirect_to=#{redirect_to})"
+  def do_redirect(id = nil)
+    logger.info "### HomeController#do_redirect(id=#{id})"
+
     # get user\'s uuid id from the session.
     uuid = session[:uuid]
     if uuid.to_s == '' then
@@ -44,7 +30,7 @@ class HomeController < ApplicationController
     end
     logger.info "### uuid=#{uuid}"
 
-    # lookup the db
+    # lookup User from DB
     user = User.where('title = :title', {title: uuid}).first_or_initialize
     if user.new_record?
       logger.info '### create a new user instance and save it.'
@@ -58,11 +44,34 @@ class HomeController < ApplicationController
     referrer_url = request.referer
     logger.info "### referer=#{referrer_url}"
 
+    # lookup redirect_to
+    redirect_to = nil
+    if id == nil then
+      logger.info "### default redirect"
+      redirect_to = Redirect.where('default_redirect = :flag', {flag: true}).first
+    else
+      logger.info "### redirect id = #{id}"
+      redirect_to = Redirect.where('id = :id',{id: id}).first
+    end
+    logger.info "### redirect to = #{redirect_to}"
+
+    redirect_url = nil
+    if redirect_to && redirect_to.target then
+      logger.info "### redirect to #{redirect_to.title}"
+      redirect_url = redirect_to.target.url
+    else
+      logger.info '### unknown redirect is specified. use default.'
+      redirect_url = @default_redirect
+    end
+
     # save a new referrer
     referrer = Referrer.new
     referrer.title = referrer_url
     referrer.user = user
     referrer.redirect = redirect_to
     referrer.save
+
+    # redicet
+    redirect_to redirect_url
   end
 end

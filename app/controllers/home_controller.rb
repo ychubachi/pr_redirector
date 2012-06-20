@@ -19,6 +19,10 @@ class HomeController < ApplicationController
   def do_redirect(id = nil)
     logger.info "### HomeController#do_redirect(id=#{id})"
 
+    # set session expire.
+    session[:expires_at] = 365.days.from_now
+    logger.info "### session will expire at #{session[:expires_at]}"
+
     # get user\'s uuid id from the session.
     uuid = session[:uuid]
     if uuid.to_s == '' then

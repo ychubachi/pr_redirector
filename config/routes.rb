@@ -16,7 +16,6 @@ PrRedirector::Application.routes.draw do
     resources :media do as_routes end
     resources :media
   end
-  get "admin/index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

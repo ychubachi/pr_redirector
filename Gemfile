@@ -35,7 +35,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
 
 gem 'therubyracer'
 gem 'active_scaffold'

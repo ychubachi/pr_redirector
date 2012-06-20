@@ -19,22 +19,18 @@ class HomeController < ApplicationController
   def do_redirect(id = nil)
     logger.info "### HomeController#do_redirect(id=#{id})"
 
-    # set session expire.
-    session[:expires_at] = 365.days.from_now
-    logger.info "### session will expire at #{session[:expires_at]}"
-
-    # get user\'s uuid id from the session.
-    uuid = session[:uuid]
+    # get user\'s uuid id from the cookies.
+    uuid = cookies[:uuid]
     if uuid.to_s == '' then
       logger.info '### new user'
       uuid = UUIDTools::UUID.random_create.to_s
-      session[:uuid] = uuid
+      cookies[:uuid] = { value: uuid, expires: 365.days.from_now }
     else
       logger.info '### repeated user'
     end
     logger.info "### uuid=#{uuid}"
 
-    # lookup User from DB
+    # lookup the user from DB
     user = User.where('title = :title', {title: uuid}).first_or_initialize
     if user.new_record?
       logger.info '### create a new user instance and save it.'
@@ -44,9 +40,14 @@ class HomeController < ApplicationController
       logger.info '### the user already exists in DB.'
     end
 
-    # get referrer
+    # get requests.
+    # see: http://memo.yomukaku.net/entries/70
     referrer_url = request.referer
     logger.info "### referer=#{referrer_url}"
+    user_agent = request.user_agent
+    logger.info "### user_agent=#{user_agent}"
+    remote_addr = request.remote_addr
+    logger.info "### remote_addr=#{remote_addr}"
 
     # lookup redirect_to
     redirect_to = nil
@@ -73,6 +74,8 @@ class HomeController < ApplicationController
     referrer.title = referrer_url
     referrer.user = user
     referrer.redirect = redirect_to
+    referrer.user_agent = user_agent
+    referrer.remote_addr = remote_addr
     referrer.save
 
     # redicet

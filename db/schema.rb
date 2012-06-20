@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120615145225) do
+ActiveRecord::Schema.define(:version => 20120620060431) do
 
   create_table "media", :force => true do |t|
     t.string   "category"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(:version => 20120615145225) do
     t.datetime "updated_at",  :null => false
     t.integer  "user_id"
     t.integer  "redirect_id"
+    t.string   "user_agent"
+    t.string   "remote_addr"
   end
 
   create_table "targets", :force => true do |t|

@@ -1,4 +1,8 @@
 PrRedirector::Application.routes.draw do
+  namespace :admin do resources :browsers do as_routes end end
+
+  namespace :admin do resources :browsers end
+
   root :to => 'home#index'
   get "home/index"
   get "home/redirect"

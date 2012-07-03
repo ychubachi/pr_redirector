@@ -30,6 +30,27 @@ class HomeController < ApplicationController
     end
     logger.info "### uuid=#{uuid}"
 
+    # get request parameters.
+    # see: http://memo.yomukaku.net/entries/70
+    referrer_url = request.referer
+    logger.info "### referer=#{referrer_url}"
+    user_agent = request.user_agent
+    logger.info "### user_agent=#{user_agent}"
+    remote_addr = request.remote_addr
+    logger.info "### remote_addr=#{remote_addr}"
+
+    # lookup the browser from DB
+    browser = Admin::Browser.where('uuid = :uuid', {uuid: uuid}).first_or_initialize
+    if browser.new_record?
+      logger.info '### create a new browser and save it.'
+      browser.uuid = uuid
+      browser.save
+    else
+      logger.info '### the browser already exists in DB.'
+    end
+      
+    ####
+
     # lookup the user from DB
     user = User.where('title = :title', {title: uuid}).first_or_initialize
     if user.new_record?
@@ -39,15 +60,6 @@ class HomeController < ApplicationController
     else
       logger.info '### the user already exists in DB.'
     end
-
-    # get requests.
-    # see: http://memo.yomukaku.net/entries/70
-    referrer_url = request.referer
-    logger.info "### referer=#{referrer_url}"
-    user_agent = request.user_agent
-    logger.info "### user_agent=#{user_agent}"
-    remote_addr = request.remote_addr
-    logger.info "### remote_addr=#{remote_addr}"
 
     # lookup redirect_to
     redirect_to = nil
